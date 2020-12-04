@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.3 (2020-12-04)
+
+- add name of token(s) to dialog header
+- add thumbnails of token(s)
+- remove "Amount" label
+- show chat message when tokens take damage
+- show chat message when tokens drop to 0 hp (with excess damage mentioned)
+
 ## 0.2.2 (2020-10-11)
 
 - add config for negative HP values (defaults to true with Pathfinder 1e)
