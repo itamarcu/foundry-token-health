@@ -1,7 +1,13 @@
 <form class="form-token-health" id="token-health" autocomplete="off" onsubmit="event.preventDefault();">
     <div class="form-group">
-        <label for="token-health-input">{{localize "TOKEN_HEALTH.Amount"}}</label>
+        {{#if thumbnails}}
+            <div style="flex-direction: row; white-space: nowrap; width: 380px; text-align: center;">
+                {{#each thumbnails as |t idx|}}
+                    <img src="{{t.image}}" style="border: none; margin: 5px; max-width: 100px; opacity: {{t.opacity}}"/>
+                {{/each}}
+            </div>
+        {{/if}}
         <input id="token-health-input" type="number" data-dtype="Number" name="amount" min="0" max="999"/>
-          <p><small>{{localize "TOKEN_HEALTH.Dialog_Help"}}</small></p>
+        <p><small>{{localize "TOKEN_HEALTH.Dialog_Help"}}</small></p>
     </div>
 </form>

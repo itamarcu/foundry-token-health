@@ -1,9 +1,9 @@
 {
   "TOKEN_HEALTH.Amount": "Amount",
-  "TOKEN_HEALTH.Dialog_Heal_Title": "Heal selected Token(s)",
-  "TOKEN_HEALTH.Dialog_Heal_Title_targeted": "Heal targeted Token(s)",
-  "TOKEN_HEALTH.Dialog_Damage_Title": "Deal Damage to selected Token(s)",
-  "TOKEN_HEALTH.Dialog_Damage_Title_targeted": "Deal Damage to targeted Token(s)",
+  "TOKEN_HEALTH.Dialog_Heal_Title": "Heal $1",
+  "TOKEN_HEALTH.Dialog_Heal_Title_targeted": "Heal $1",
+  "TOKEN_HEALTH.Dialog_Damage_Title": "Deal damage to $1",
+  "TOKEN_HEALTH.Dialog_Damage_Title_targeted": "Deal damage to $1",
   "TOKEN_HEALTH.Dialog_Help": "Enter the number of points of damage or healing. You can use negative numbers.",
   "TOKEN_HEALTH.Heal": "Heal",
   "TOKEN_HEALTH.Damage": "Damage",

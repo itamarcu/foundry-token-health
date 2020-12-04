@@ -40,7 +40,9 @@ const applyDamage = async (html, isDamage, isTargeted) => {
     ? Array.from(game.user.targets)
     : canvas.tokens.controlled;
 
-  const promises = tokens.map(({actor}) => {
+  const thoseThatWentDown = []
+
+  const promises = tokens.map(({ actor }) => {
     // Handle temp hp if any
     const data = actor.data.data;
     const hp = getProperty(data, CONFIG.HITPOINTS_ATTRIBUTE);
@@ -50,6 +52,11 @@ const applyDamage = async (html, isDamage, isTargeted) => {
     const [newHP, newTempHP] = getNewHP(hp, max, temp, damage, {
       allowNegative: CONFIG.ALLOW_NEGATIVE,
     });
+
+    if (newHP === 0 && damage > 0) {
+      const excessDamage = damage - hp
+      thoseThatWentDown.push([actor.name, excessDamage])
+    }
 
     const updates = {
       _id: actor.id,
@@ -65,8 +72,24 @@ const applyDamage = async (html, isDamage, isTargeted) => {
     return actor.update(updates);
   });
 
-  return Promise.all(promises);
-};
+  if (value) {
+    const actorNames = tokens.map(t => t.name).join(', ')
+    const isActuallyDamage = isDamage ^ (value < 0)
+    const absValue = Math.abs(value)
+    const damageOrHealingText = isActuallyDamage
+      ? `<p style="display:inline; color: #bc1700; font-weight: bold">${absValue} damage</p> dealt to`
+      : `<p style="display:inline; color: #008a00; font-weight: bold">${absValue} healing</p> granted to`
+    const messageContent = `${damageOrHealingText} ${actorNames}.`
+    ChatMessage.create({ content: messageContent })
+  }
+  for (const pair of thoseThatWentDown) {
+    const name = pair[0], excess = pair[1]
+    const messageContent = `${name} went down (<p style="display:inline; color: #bc1700">${excess} excess damage</p>).`
+    ChatMessage.create({ content: messageContent })
+  }
+
+  return Promise.all(promises)
+}
 
 /**
  * Display token Health overlay.
@@ -91,17 +114,23 @@ const displayOverlay = async (isDamage, isTargeted = false) => {
     },
   };
 
-  const content = await renderTemplate(
-    `modules/token-health/templates/token-health.hbs`
-  );
-
   let dialogTitle = `TOKEN_HEALTH.Dialog_${isDamage ? 'Damage' : 'Heal'}_Title${
     isTargeted ? '_targeted' : ''
   }`;
 
+  const tokens = isTargeted ? Array.from(game.user.targets) : canvas.tokens.controlled
+  const nameOfTokens = tokens.map(t => t.name).sort((a, b) => a.length - b.length).join(', ')
+  // we will show the first four thumbnails, with the 4th cut in half and gradually more and more translucent
+  let thumbnails = tokens.slice(0, 4).map((t, idx) => ({ image: t.data.img, opacity: (1 - 0.15 * idx) }))
+
+  const content = await renderTemplate(
+    `modules/token-health/templates/token-health.hbs`,
+    { thumbnails },
+  )
+
   // Render the dialog
   dialog = new TokenHealthDialog({
-    title: i18n(dialogTitle),
+    title: i18n(dialogTitle).replace('$1', nameOfTokens),
     buttons,
     content,
     default: isDamage ? 'damage' : 'heal',
