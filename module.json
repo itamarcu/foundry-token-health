@@ -8,11 +8,11 @@
   "compatibleCoreVersion": "0.7.7",
   "styles": ["token-health.css"],
   "esmodules": ["contrib/settings-extender.js","token-health.js"],
-  "url": "https://github.com/tonifisler/foundry-token-health",
-  "manifest": "https://raw.githubusercontent.com/tonifisler/foundry-token-health/master/module.json",
-  "download": "https://github.com/tonifisler/foundry-token-health/archive/0.2.2.zip",
-  "changelog": "https://github.com/tonifisler/foundry-token-health/blob/master/CHANGELOG.md",
-  "readme": "https://github.com/tonifisler/foundry-token-health/blob/master/README.md",
+  "url": "https://github.com/itamarcu/foundry-token-health",
+  "manifest": "https://raw.githubusercontent.com/itamarcu/foundry-token-health/master/module.json",
+  "download": "https://github.com/itamarcu/foundry-token-health/archive/0.2.3.zip",
+  "changelog": "https://github.com/itamarcu/foundry-token-health/blob/master/CHANGELOG.md",
+  "readme": "https://github.com/itamarcu/foundry-token-health/blob/master/README.md",
   "languages": [
     {
       "lang": "en",
