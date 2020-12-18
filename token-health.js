@@ -80,12 +80,16 @@ const applyDamage = async (html, isDamage, isTargeted) => {
       ? `<p style="display:inline; color: #bc1700; font-weight: bold">${absValue} damage</p> dealt to`
       : `<p style="display:inline; color: #008a00; font-weight: bold">${absValue} healing</p> granted to`
     const messageContent = `${damageOrHealingText} ${actorNames}.`
-    ChatMessage.create({ content: messageContent })
+    const data = { content: messageContent }
+    ChatMessage.applyRollMode(data, game.settings.get("core", "rollMode"))
+    ChatMessage.create(data)
   }
   for (const pair of thoseThatWentDown) {
     const name = pair[0], excess = pair[1]
     const messageContent = `${name} went down (<p style="display:inline; color: #bc1700">${excess} excess damage</p>).`
-    ChatMessage.create({ content: messageContent })
+    const data = { content: messageContent }
+    ChatMessage.applyRollMode(data, game.settings.get("core", "rollMode"))
+    ChatMessage.create(data)
   }
 
   return Promise.all(promises)
